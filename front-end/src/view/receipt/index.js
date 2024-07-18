@@ -254,15 +254,11 @@ const Receipt = () => {
     const [itemDetail, setItemDetail] = React.useState({});
     const [showReceiptForm, setShowReceiptForm] = React.useState(false);
 
-    const handleSnackbar = (message, type) => {
-        handleOpen(message, type);
-    };
-
     const fetchItem = async () => {
         try {
             const response = await getItemList();
             if (typeof response === 'string') {
-                handleSnackbar(response, 'error');
+                handleOpen(response, 'error');
             } else {
                 setRows(response);
                 setOriginalData(response);
@@ -350,9 +346,9 @@ const Receipt = () => {
         try {
             const response = await createItem(data);
             if (typeof response === 'string') {
-                handleSnackbar(response, 'error');
+                handleOpen(response, 'error');
             } else {
-                handleSnackbar(response.data.message, 'success');
+                handleOpen(response.data.message, 'success');
                 handleModalClose();
                 fetchItem();
             }
@@ -365,9 +361,9 @@ const Receipt = () => {
         try {
             const response = await updateItem(id, data);
             if (typeof response === 'string') {
-                handleSnackbar(response, 'error');
+                handleOpen(response, 'error');
             } else {
-                handleSnackbar(response.data.message, 'success');
+                handleOpen(response.data.message, 'success');
                 handleModalClose();
                 fetchItem();
             }

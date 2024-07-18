@@ -32,15 +32,11 @@ const ReceiptForm = ({ oncancel }) => {
     const [showUnit, setShowUnit] = useState(false);
     const [selectedItemType, setSelectedItemType] = useState('');
 
-    const handleSnackbar = (message, type) => {
-        handleOpen(message, type);
-    };
-
     const fetchItem = async () => {
         try {
             const response = await getItemList();
             if (typeof response === 'string') {
-                handleSnackbar(response, 'error');
+                handleOpen(response, 'error');
             } else {
                 setItemList(response);
             }
@@ -69,7 +65,7 @@ const ReceiptForm = ({ oncancel }) => {
             setTableInputBox(tableHeader);
             setShowUnit(false);
         } else {
-            handleSnackbar('Field Should Not Be Empty Of Item Table', 'error');
+            handleOpen('Field Should Not Be Empty Of Item Table', 'error');
         }
     };
 
@@ -205,7 +201,7 @@ const ReceiptForm = ({ oncancel }) => {
     }, []);
 
     if (showPrintReceipt) {
-        return <PrintReceipt itemTable={itemTableDetail} onCancel={handleClose} />;
+        return <PrintReceipt itemTable={itemTableDetail} onCancel={handleClose} total={total} />;
     }
 
     return (

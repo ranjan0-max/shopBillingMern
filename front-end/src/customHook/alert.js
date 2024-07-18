@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import Snackbar from '@mui/material/Snackbar';
+// import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 const useSnackbarAlert = () => {
     const [open, setOpen] = useState(false);
@@ -20,7 +22,7 @@ const useSnackbarAlert = () => {
     };
 
     const SnackbarComponent = () => (
-        <Snackbar open={open} autoHideDuration={6000} anchorOrigin={anchorOrigin} onClose={handleClose}>
+        <Snackbar open={open} autoHideDuration={1000} anchorOrigin={anchorOrigin} onClose={handleClose}>
             <Alert onClose={handleClose} severity={severity} variant="filled" sx={{ width: '100%' }}>
                 {message}
             </Alert>

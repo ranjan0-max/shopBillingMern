@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import MainCard from 'componets/MainCard';
 import { Button, Grid } from '@mui/material';
 
-const PrintReceipt = ({ itemTable, onCancel }) => {
+const PrintReceipt = ({ itemTable, onCancel, total }) => {
     const printableRef = useRef(null);
 
     const handlePrint = () => {
@@ -17,7 +17,7 @@ const PrintReceipt = ({ itemTable, onCancel }) => {
                     <style>
                         @media print {
                             @page {
-                                size: 58mm; /* Adjust page size as needed */
+                                size: 80mm; /* Adjust page size as needed */
                                 margin: 0; /* Adjust margin as needed */
                             }
                             body {
@@ -31,13 +31,13 @@ const PrintReceipt = ({ itemTable, onCancel }) => {
                             table {
                                 width: 100%;
                                 border-collapse: collapse;
-                                margin-top: 10mm; /* Adjust top margin as needed */
+                                margin-top: 5mm; /* Adjust top margin as needed */
                             }
                             th, td {
                                 border: 1px solid white;
                                 padding: 0px;
                                 text-align: center;
-                                font-size: 12px;
+                                font-size: 11px;
                                 white-space: nowrap;
                             }
                         }
@@ -62,9 +62,14 @@ const PrintReceipt = ({ itemTable, onCancel }) => {
     return (
         <MainCard>
             <div ref={printableRef}>
+                <div style={{ display: 'flex', justifyContent: 'center', fontWeight: 'bolder' }}>CASH MEMO</div>
+                {/* <div style={{ display: 'flex', justifyContent: 'center', fontWeight: 'bolder' }}>FAUJI RATION STORE</div>
+                <div style={{ display: 'flex', justifyContent: 'center', fontSize: '10px' }}>P.NO : 7018423400, 6230073716</div>
+                <div style={{ display: 'flex', justifyContent: 'center', fontSize: '10px' }}>Pal building, Mandi Road, Hiranagar</div> */}
                 <table>
                     <thead>
                         <tr>
+                            <th>S.NO</th>
                             <th>I.NAME</th>
                             <th>QTY</th>
                             <th>RATE</th>
@@ -74,6 +79,7 @@ const PrintReceipt = ({ itemTable, onCancel }) => {
                     <tbody>
                         {itemTable.map((item, index) => (
                             <tr key={index}>
+                                <td>{index + 1}</td>
                                 <td>{item.itemName}</td>
                                 <td>{item.quantity}</td>
                                 <td>{item.rate}</td>
@@ -82,6 +88,8 @@ const PrintReceipt = ({ itemTable, onCancel }) => {
                         ))}
                     </tbody>
                 </table>
+                <br />
+                <div style={{ display: 'flex', justifyContent: 'center', fontWeight: 'bolder' }}>Total : {total}</div>
             </div>
             <Grid container justifyContent="center" spacing={2}>
                 <Grid item>
