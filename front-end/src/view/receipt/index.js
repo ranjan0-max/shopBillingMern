@@ -40,7 +40,6 @@ import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 
 // form & model
 import ItemModel from './ItemModel';
-import ReceiptForm from './ReceiptForm';
 import ReceiptManager from './ReceiptManager';
 
 // Api

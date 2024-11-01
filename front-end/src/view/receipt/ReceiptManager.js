@@ -12,7 +12,8 @@ const ReceiptManager = ({ oncancel }) => {
     };
 
     const handleAddReceipt = () => {
-        setReceipts((prev) => [...prev, <ReceiptForm key={prev.length} onClose={() => handleCancel(prev.length)} />]);
+        const newIndex = receipts.length;
+        setReceipts((prev) => [...prev, { id: newIndex }]);
     };
 
     const handleBackClick = () => {
@@ -37,7 +38,9 @@ const ReceiptManager = ({ oncancel }) => {
                 </Button>
                 <Stack spacing={2}>
                     {receipts.map((receipt, index) => (
-                        <div key={index}>{receipt}</div>
+                        <div key={receipt.id}>
+                            <ReceiptForm onClose={() => handleCancel(index)} />
+                        </div>
                     ))}
                 </Stack>
             </MainCard>
