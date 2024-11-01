@@ -40,8 +40,8 @@ const ItemModel = ({ event, range, handleCreate, handleUpdate, onCancel, itemDet
         name: Yup.string().max(255).required('Item Name is required'),
         itemType: Yup.string().max(255).required('Item Type is required'),
         purchaseRate: Yup.number().required('Purchase Rate is required'),
-        gst: Yup.number().required('GST is required'),
-        hsnCode: Yup.number().required('HSN is required')
+        gst: Yup.number().required('GST is required')
+        // hsnCode: Yup.number().required('HSN is required')
     });
 
     const [openQuantity, setOpenQuantity] = React.useState(false);

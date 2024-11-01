@@ -50,13 +50,13 @@ const PrintReceipt = ({ itemTable, onCancel, total }) => {
             `);
             printWindow?.document.close();
             printWindow?.print();
-            printWindow?.close();
+            printWindow.close();
             onCancel();
         }
     };
 
     React.useEffect(() => {
-        handlePrint();
+        setTimeout(() => handlePrint(), 100);
     }, []);
 
     return (

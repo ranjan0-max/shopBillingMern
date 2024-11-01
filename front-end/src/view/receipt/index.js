@@ -35,16 +35,13 @@ import MainCard from 'componets/MainCard';
 // assets
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/AddTwoTone';
-// import FilterListIcon from '@mui/icons-material/FilterListTwoTone';
-// import PrintIcon from '@mui/icons-material/PrintTwoTone';
-// import FileCopyIcon from '@mui/icons-material/FileCopyTwoTone';
 import SearchIcon from '@mui/icons-material/Search';
-// import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 
 // form & model
 import ItemModel from './ItemModel';
 import ReceiptForm from './ReceiptForm';
+import ReceiptManager from './ReceiptManager';
 
 // Api
 import { getItemList, updateItem, createItem } from 'api/item/itemApi';
@@ -386,7 +383,7 @@ const Receipt = () => {
     }, []);
 
     if (showReceiptForm) {
-        return <ReceiptForm oncancel={handleCancel} />;
+        return <ReceiptManager oncancel={handleCancel} />;
     }
 
     return (

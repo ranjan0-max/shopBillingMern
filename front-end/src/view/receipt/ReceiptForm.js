@@ -1,10 +1,10 @@
 import React, { useState, useRef } from 'react';
 import MainCard from 'componets/MainCard';
-import { Button, Grid, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Button, Grid, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import EditIcon from '@mui/icons-material/Edit';
 import useSnackbarAlert from 'customHook/alert';
-import { KeyboardBackspace } from '@mui/icons-material';
+import { Close } from '@mui/icons-material';
 import { getItemList } from 'api/item/itemApi';
 import PrintReceipt from './PrintReceipt';
 
@@ -19,7 +19,7 @@ const tableHeader = [
     }
 ];
 
-const ReceiptForm = ({ oncancel }) => {
+const ReceiptForm = ({ onClose }) => {
     const { handleOpen, SnackbarComponent } = useSnackbarAlert();
     const buttonRef = useRef(null);
 
@@ -96,6 +96,8 @@ const ReceiptForm = ({ oncancel }) => {
                     setSelectedItemType('KG');
                     currentItem.rate = item[0].oneKg;
                 }
+            } else {
+                currentItem.rate = null;
             }
         }
 
@@ -180,7 +182,7 @@ const ReceiptForm = ({ oncancel }) => {
     };
 
     const handleBackClick = () => {
-        oncancel();
+        onClose();
     };
 
     const printTable = () => {
@@ -189,6 +191,7 @@ const ReceiptForm = ({ oncancel }) => {
 
     const handleClose = () => {
         setShowPrintReceipt(false);
+        setItemTableDetail([]);
     };
 
     React.useEffect(() => {
@@ -206,17 +209,17 @@ const ReceiptForm = ({ oncancel }) => {
 
     return (
         <MainCard
-            title="Receipt"
+            // title="Receipt"
             content={false}
-            secondary={
-                <Stack direction="row" spacing={2} alignItems="center">
-                    <Button color="secondary" variant="contained" onClick={handleBackClick}>
-                        <KeyboardBackspace fontSize="small" /> Back
-                    </Button>
-                </Stack>
-            }
         >
             <SnackbarComponent />
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginRight: '12%', marginBottom: '1%', marginTop: '1%' }}>
+                <TextField placeholder="Customer Name" size="small" />
+                <Button color="error" variant="contained" onClick={handleBackClick}>
+                    <Close />
+                </Button>
+            </div>
             <Grid item xs={12} style={{ display: 'flex', justifyContent: 'center' }}>
                 <TableContainer sx={{ maxHeight: 550, maxWidth: 900 }}>
                     <Table
