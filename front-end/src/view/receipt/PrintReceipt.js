@@ -1,9 +1,12 @@
-import React, { useRef } from 'react';
-import MainCard from 'componets/MainCard';
 import { Button, Grid } from '@mui/material';
+import MainCard from 'componets/MainCard';
+import React, { useRef } from 'react';
 
-const PrintReceipt = ({ itemTable, onCancel, total }) => {
+const PrintReceipt = ({ itemTable, onCancel, total, customerName }) => {
     const printableRef = useRef(null);
+
+    const currentDate = new Date();
+    const dateTimeString = currentDate.toLocaleString();
 
     const handlePrint = () => {
         const printableContent = printableRef.current;
@@ -37,7 +40,7 @@ const PrintReceipt = ({ itemTable, onCancel, total }) => {
                                 border: 1px solid white;
                                 padding: 0px;
                                 text-align: center;
-                                font-size: 11px;
+                                font-size: 15px;
                                 white-space: nowrap;
                             }
                         }
@@ -62,34 +65,46 @@ const PrintReceipt = ({ itemTable, onCancel, total }) => {
     return (
         <MainCard>
             <div ref={printableRef}>
-                <div style={{ display: 'flex', justifyContent: 'center', fontWeight: 'bolder' }}>CASH MEMO</div>
-                {/* <div style={{ display: 'flex', justifyContent: 'center', fontWeight: 'bolder' }}>FAUJI RATION STORE</div>
+                <div style={{ display: 'flex', justifyContent: 'center', fontWeight: 'bolder' }}>FAUJI RATION STORE</div>
+                <br />
                 <div style={{ display: 'flex', justifyContent: 'center', fontSize: '10px' }}>P.NO : 7018423400, 6230073716</div>
-                <div style={{ display: 'flex', justifyContent: 'center', fontSize: '10px' }}>Pal building, Mandi Road, Hiranagar</div> */}
+                {/* <div style={{ display: 'flex', justifyContent: 'center', fontSize: '10px' }}>Pal building, Mandi Road, Hiranagar</div> */}
+                <div style={{ display: 'flex', justifyContent: 'center', fontWeight: 'bolder' }}>CASH MEMO</div>
+                <br />
+                <div style={{ display: 'flex', justifyContent: 'center', fontWeight: 'bolder' }}>
+                    {customerName + `(${dateTimeString})`}
+                </div>
                 <table>
                     <thead>
                         <tr>
-                            <th>S.NO</th>
-                            <th>I.NAME</th>
-                            <th>QTY</th>
-                            <th>RATE</th>
-                            <th>TOTAL</th>
+                            <th style={{ borderBottom: '1px solid #000' }}>S.NO</th>
+                            <th style={{ borderBottom: '1px solid #000' }}>I.NAME</th>
+                            <th style={{ borderBottom: '1px solid #000' }}>QTY</th>
+                            <th style={{ borderBottom: '1px solid #000' }}>RATE</th>
+                            <th style={{ borderBottom: '1px solid #000' }}>TOTAL</th>
                         </tr>
                     </thead>
                     <tbody>
                         {itemTable.map((item, index) => (
                             <tr key={index}>
-                                <td>{index + 1}</td>
-                                <td>{item.itemName}</td>
-                                <td>{item.quantity}</td>
-                                <td>{item.rate}</td>
-                                <td>{item.total}</td>
+                                <td style={{ borderBottom: '1px solid #000' }}>{index + 1}</td>
+                                <td style={{ borderBottom: '1px solid #000' }}>{item.itemName}</td>
+                                <td style={{ borderBottom: '1px solid #000' }}>{item.quantity}</td>
+                                <td style={{ borderBottom: '1px solid #000' }}>{item.rate}</td>
+                                <td style={{ borderBottom: '1px solid #000' }}>{item.total}</td>
                             </tr>
                         ))}
+                        <tr>
+                            <td colSpan={4} style={{ display: 'flex', justifyContent: 'center', fontWeight: 'bolder' }}>
+                                Total
+                            </td>
+                            <td />
+                            <td />
+                            <td />
+                            <td>{total}</td>
+                        </tr>
                     </tbody>
                 </table>
-                <br />
-                <div style={{ display: 'flex', justifyContent: 'center', fontWeight: 'bolder' }}>Total : {total}</div>
             </div>
             <Grid container justifyContent="center" spacing={2}>
                 <Grid item>

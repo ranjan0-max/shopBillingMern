@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import {
     Box,
     Drawer,
@@ -22,6 +22,7 @@ import {
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import DescriptionIcon from '@mui/icons-material/Description';
 import { IconSettings } from '@tabler/icons-react';
+import WebhookIcon from '@mui/icons-material/Webhook';
 
 // custom hook
 import useAuth from 'customHook/useAuth';
@@ -31,18 +32,20 @@ const ITEM_HEIGHT = 30;
 
 export default function PermanentDrawerLeft() {
     const { logOut } = useAuth();
+    const navigate = useNavigate();
+
     const [menuAnchorEl, setMenuAnchorEl] = useState(null);
 
     const menuList = [
         {
             label: 'Receipt',
             icon: <ReceiptLongIcon />,
-            to: '/'
+            to: '/receipt'
         },
         {
             label: 'Bill',
             icon: <DescriptionIcon />,
-            to: '/bill'
+            to: '/invoice'
         }
     ];
 
@@ -56,6 +59,10 @@ export default function PermanentDrawerLeft() {
 
     const handleLogOut = async () => {
         await logOut();
+    };
+
+    const handleMenuItemClick = (path) => {
+        navigate(path);
     };
 
     return (
@@ -114,12 +121,15 @@ export default function PermanentDrawerLeft() {
                 variant="permanent"
                 anchor="left"
             >
-                <Toolbar />
+                <Toolbar style={{ paddingRight: '5px' }}>
+                    <WebhookIcon />
+                    <Typography style={{ fontWeight: 'bolder', marginLeft: '2px' }}>Billing & Invoice</Typography>
+                </Toolbar>
                 <Divider />
                 <List>
                     {menuList.map((menu) => (
                         <ListItem key={menu.label} disablePadding>
-                            <ListItemButton>
+                            <ListItemButton onClick={() => handleMenuItemClick(menu.to)}>
                                 <ListItemIcon>{menu.icon}</ListItemIcon>
                                 <ListItemText primary={menu.label} primaryTypographyProps={{ fontWeight: 'bold' }} />
                             </ListItemButton>

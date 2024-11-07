@@ -1,11 +1,11 @@
-import React, { useState, useRef } from 'react';
-import MainCard from 'componets/MainCard';
-import { Button, Grid, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import EditIcon from '@mui/icons-material/Edit';
-import useSnackbarAlert from 'customHook/alert';
 import { Close } from '@mui/icons-material';
+import EditIcon from '@mui/icons-material/Edit';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import { Button, Grid, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
 import { getItemList } from 'api/item/itemApi';
+import MainCard from 'componets/MainCard';
+import useSnackbarAlert from 'customHook/alert';
+import React, { useRef, useState } from 'react';
 import PrintReceipt from './PrintReceipt';
 
 const BLANK = '';
@@ -31,6 +31,7 @@ const ReceiptForm = ({ onClose }) => {
     const [showPrintReceipt, setShowPrintReceipt] = useState(false);
     const [showUnit, setShowUnit] = useState(false);
     const [selectedItemType, setSelectedItemType] = useState('');
+    const [customerName, setCustomerName] = useState('');
 
     const fetchItem = async () => {
         try {
@@ -204,7 +205,7 @@ const ReceiptForm = ({ onClose }) => {
     }, []);
 
     if (showPrintReceipt) {
-        return <PrintReceipt itemTable={itemTableDetail} onCancel={handleClose} total={total} />;
+        return <PrintReceipt itemTable={itemTableDetail} onCancel={handleClose} total={total} customerName={customerName} />;
     }
 
     return (
@@ -215,7 +216,7 @@ const ReceiptForm = ({ onClose }) => {
             <SnackbarComponent />
 
             <div style={{ display: 'flex', justifyContent: 'space-between', marginRight: '12%', marginBottom: '1%', marginTop: '1%' }}>
-                <TextField placeholder="Customer Name" size="small" />
+                <TextField placeholder="Customer Name" size="small" onChange={(event) => setCustomerName(event.target.value)} />
                 <Button color="error" variant="contained" onClick={handleBackClick}>
                     <Close />
                 </Button>

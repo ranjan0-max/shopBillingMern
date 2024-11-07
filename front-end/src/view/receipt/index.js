@@ -2,13 +2,16 @@ import PropTypes from 'prop-types';
 import * as React from 'react';
 
 // material-ui
-import { useTheme } from '@mui/material/styles';
 import {
     Box,
+    Button,
     CardContent,
+    Dialog,
     Grid,
     IconButton,
     InputAdornment,
+    Paper,
+    Stack,
     Table,
     TableBody,
     TableCell,
@@ -20,12 +23,9 @@ import {
     TextField,
     Toolbar,
     Tooltip,
-    Typography,
-    Stack,
-    Button,
-    Dialog,
-    Paper
+    Typography
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { visuallyHidden } from '@mui/utils';
 import useSnackbarAlert from 'customHook/alert';
 
@@ -33,17 +33,17 @@ import useSnackbarAlert from 'customHook/alert';
 import MainCard from 'componets/MainCard';
 
 // assets
-import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/AddTwoTone';
-import SearchIcon from '@mui/icons-material/Search';
+import DeleteIcon from '@mui/icons-material/Delete';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
+import SearchIcon from '@mui/icons-material/Search';
 
 // form & model
 import ItemModel from './ItemModel';
 import ReceiptManager from './ReceiptManager';
 
 // Api
-import { getItemList, updateItem, createItem } from 'api/item/itemApi';
+import { createItem, getItemList, updateItem } from 'api/item/itemApi';
 
 // table sort
 function descendingComparator(a, b, orderBy) {
@@ -535,6 +535,7 @@ const Receipt = () => {
             <Dialog maxWidth="sm" fullWidth onClose={handleModalClose} open={isModalOpen} sx={{ '& .MuiDialog-paper': { p: 0 } }}>
                 {isModalOpen && (
                     <ItemModel
+                        itemList={originalData}
                         onCancel={handleModalClose}
                         handleCreate={handleEventCreate}
                         event={itemModelEvent}

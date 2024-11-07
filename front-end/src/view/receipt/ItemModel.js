@@ -1,13 +1,25 @@
 import PropTypes from 'prop-types';
 import * as React from 'react';
 
-import { Button, DialogActions, DialogContent, DialogTitle, Divider, Grid, MenuItem, Stack, TextField, Typography } from '@mui/material';
+import {
+    Autocomplete,
+    Button,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    Divider,
+    Grid,
+    MenuItem,
+    Stack,
+    TextField,
+    Typography
+} from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 
 // third-party
+import { Form, FormikProvider, useFormik } from 'formik';
 import _ from 'lodash';
 import * as Yup from 'yup';
-import { useFormik, Form, FormikProvider } from 'formik';
 
 // project imports
 import { gridSpacing } from 'constant/constant';
@@ -35,7 +47,7 @@ const getInitialValues = (event, range, itemDetail) => {
 
 // ==============================|| COUNTRY EVENT ADD / EDIT / DELETE ||============================== //
 
-const ItemModel = ({ event, range, handleCreate, handleUpdate, onCancel, itemDetail }) => {
+const ItemModel = ({ event, range, handleCreate, handleUpdate, onCancel, itemDetail, itemList }) => {
     const EventSchema = Yup.object().shape({
         name: Yup.string().max(255).required('Item Name is required'),
         itemType: Yup.string().max(255).required('Item Type is required'),
@@ -77,10 +89,10 @@ const ItemModel = ({ event, range, handleCreate, handleUpdate, onCancel, itemDet
         }
     }, [values.itemType]);
 
-    React.useEffect(() => {
-        handleNameChange();
-        // eslint-disable-next-line
-    }, [values.name]);
+    // React.useEffect(() => {
+    //     handleNameChange();
+    //     // eslint-disable-next-line
+    // }, [values.name]);
 
     return (
         <FormikProvider value={formik}>
@@ -92,12 +104,32 @@ const ItemModel = ({ event, range, handleCreate, handleUpdate, onCancel, itemDet
                         <Grid container spacing={gridSpacing}>
                             <Grid item xs={12} sm={3} md={6}>
                                 <Typography marginBottom="5px">Item Name</Typography>
-                                <TextField
+                                <Autocomplete
                                     size="small"
-                                    onClick={handleNameChange}
                                     {...getFieldProps('name')}
-                                    error={formik.touched.name && Boolean(formik.errors.name)}
-                                    helperText={formik.touched.name && formik.errors.name}
+                                    value={formik.values.name}
+                                    onChange={(_, value) => {
+                                        if (itemList.some((item) => item.name === value?.name)) {
+                                            formik.setFieldError('name', 'This item already exists');
+                                            setTimeout(() => {
+                                                formik.setFieldValue('name', '');
+                                            }, 1000);
+                                        } else {
+                                            formik.setFieldValue('name', value);
+                                            formik.setFieldError('name', '');
+                                        }
+                                    }}
+                                    options={itemList}
+                                    getOptionLabel={(item) => item?.name || formik.values.name}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            {...getFieldProps('name')}
+                                            label="Name"
+                                            error={formik.touched.name && Boolean(formik.errors.name)}
+                                            helperText={formik.touched.name && formik.errors.name}
+                                        />
+                                    )}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={3} md={6}>
